@@ -96,7 +96,9 @@ pipeline {
 
         stage('Manual approval') {
             steps {
+                timeout(15) {
                 input message: 'Approve deployment to production?', ok: 'Ye I am sure !'
+                }
             }
         }
 
