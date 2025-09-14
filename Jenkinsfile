@@ -76,7 +76,7 @@ pipeline {
             }
         }
 
-        stage('Deploy prod') {
+        stage('Deploy staging') {
             agent {
                 docker {
                     image 'node:18-alpine'
@@ -89,12 +89,12 @@ pipeline {
                     node_modules/.bin/netlify --version
                     echo "Deploying to staging. Site ID: $NETLIFY_SITE_ID"
                     node_modules/.bin/netlify status
-                    node_modules/.bin/netlify deploy --dir=build
+                    node_modules/.bin/netlify deploy --no-build --dir=build
                 '''
             }
         }
 
-        stage('Deploy') {
+        stage('Deploy prod') {
             agent {
                 docker {
                     image 'node:18-alpine'
@@ -107,7 +107,7 @@ pipeline {
                     node_modules/.bin/netlify --version
                     echo "Deploying to production. Site ID: $NETLIFY_SITE_ID"
                     node_modules/.bin/netlify status
-                    node_modules/.bin/netlify deploy  --no-build  --dir=build --prod
+                    node_modules/.bin/netlify deploy --no-build --dir=build --prod
                 '''
             }
         }
@@ -121,7 +121,7 @@ pipeline {
             }
 
             environment {
-                CI_ENVIRONMENT_URL = 'https://boisterous-marigold-3983b8.netlify.app'
+                CI_ENVIRONMENT_URL = 'PUT YOUR NETLIFY SITE URL HERE'
             }
 
             steps {
